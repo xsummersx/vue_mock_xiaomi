@@ -7,7 +7,18 @@ import VueAxios from 'vue-axios'
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
-Vue.axios.defaults.baseURL = ''
+axios.defaults.baseURL = '/api';
+axios.defaults.timeout = 8000
+axios.interceptors.response.use((respnse) => {
+  let res = respnse.data;
+  if (res.status == 0) {
+    return res.data;
+  } else if (res.status == 10) {
+    window.location.href = "/#/login";
+  } else {
+    alert("res.msg");
+  }
+})
 new Vue({
   router,
   store,
